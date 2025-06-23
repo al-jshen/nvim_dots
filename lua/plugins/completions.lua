@@ -2,7 +2,36 @@ return {
 	{
 	  'saghen/blink.cmp',
 	  -- optional: provides snippets for the snippet source
-	  dependencies = { 'rafamadriz/friendly-snippets' },
+	  dependencies = { 
+      'rafamadriz/friendly-snippets',
+      {
+        "giuxtaposition/blink-cmp-copilot",
+        dependencies = {
+          {
+            "zbirenbaum/copilot.lua",
+            cmd = "Copilot",
+            build = ":Copilot auth",
+            event = "BufReadPost",
+            opts = {
+              panel = {
+                enabled = false,
+              },
+              suggestion = {
+                enabled = false,
+                auto_trigger = true,
+              },
+              keymap = {
+                accept = false,
+              },
+              filetypes = {
+                markdown = true,
+                help = true,
+              }
+            },
+          },
+        },
+      },
+    },
 
 	  -- use a release tag to download pre-built binaries
 	  version = '1.*',
@@ -26,7 +55,10 @@ return {
 	    -- C-k: Toggle signature help (if signature.enabled = true)
 	    --
 	    -- See :h blink-cmp-config-keymap for defining your own keymap
-	    keymap = { preset = 'default' },
+	    keymap = { 
+        preset = 'enter',
+        ["<C-y>"] = { "select_and_accept" },
+      },
 
 	    appearance = {
 	      -- 'mono' (default) for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
@@ -35,18 +67,41 @@ return {
 	    },
 
 	    -- (Default) Only show the documentation popup when manually triggered
-	    completion = { documentation = { auto_show = false } },
+	    completion = { 
+        accept = {
+          -- experimental auto-brackets support
+          auto_brackets = {
+            enabled = true,
+          },
+        },
+        menu = {
+          draw = {
+            treesitter = { "lsp" },
+          },
+        },
+        documentation = { 
+          auto_show = true,
+          auto_show_delay_ms = 100,
+        },
+
+      },
 
 	    -- Default list of enabled providers defined so that you can extend it
 	    -- elsewhere in your config, without redefining it, due to `opts_extend`
 	    sources = {
-	      default = { 'lsp', 'path', 'snippets', 'buffer' },
+	      default = { 'lsp', 'path', 'snippets', 'buffer', 'copilot' },
         providers = {
           lazydev = {
             name = "LazyDev",
             module = "lazydev.integrations.blink",
             -- make lazydev completions top priority (see `:h blink.cmp`)
             score_offset = 100,
+          },
+          copilot = {
+            name = "copilot",
+            module = "blink-cmp-copilot",
+            score_offset = 100,
+            async = true,
           },
         }
 	    },
@@ -59,5 +114,18 @@ return {
 	    fuzzy = { implementation = "prefer_rust_with_warning" }
 	  },
 	  opts_extend = { "sources.default" }
-	}
+	},
+  {
+    "mason-org/mason-lspconfig.nvim",
+    opts = {
+      automatic_enable = true,
+    },
+    dependencies = {
+        {
+          "mason-org/mason.nvim",
+          opts = {}
+        },
+        "neovim/nvim-lspconfig",
+    },
+  },
 }
