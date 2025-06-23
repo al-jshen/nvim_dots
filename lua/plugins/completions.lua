@@ -17,11 +17,11 @@ return {
                 enabled = false,
               },
               suggestion = {
-                enabled = false,
+                enabled = true,
                 auto_trigger = true,
-              },
-              keymap = {
-                accept = false,
+                keymap = {
+                  accept = "<Tab>",
+                },
               },
               filetypes = {
                 markdown = true,
@@ -55,9 +55,30 @@ return {
 	    -- C-k: Toggle signature help (if signature.enabled = true)
 	    --
 	    -- See :h blink-cmp-config-keymap for defining your own keymap
+      signature = {
+        enabled = true,
+        window = {
+          show_documentation = true,
+        }
+      },
+
 	    keymap = { 
         preset = 'enter',
-        ["<C-y>"] = { "select_and_accept" },
+        ["<CR>"] = { "accept", "fallback" },
+        ["<Tab>"] = {
+            "select_next",
+            "snippet_forward",
+            "fallback",
+        },
+        ["<S-Tab>"] = {
+            "select_prev",
+            "snippet_backward",
+            "fallback",
+        },
+        ["<C-space>"] = { "show", "show_documentation", "hide_documentation" },
+        ["<C-e>"] = { "hide" },
+        ["<C-u>"] = { "scroll_documentation_up", "fallback" },
+        ["<C-d>"] = { "scroll_documentation_down", "fallback" },
       },
 
 	    appearance = {
@@ -75,6 +96,7 @@ return {
           },
         },
         menu = {
+          auto_show = true,
           draw = {
             treesitter = { "lsp" },
           },
@@ -83,7 +105,9 @@ return {
           auto_show = true,
           auto_show_delay_ms = 100,
         },
-
+        ghost_text = {
+          enabled = true,
+        },
       },
 
 	    -- Default list of enabled providers defined so that you can extend it
