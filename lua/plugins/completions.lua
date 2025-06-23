@@ -7,28 +7,7 @@ return {
       {
         "giuxtaposition/blink-cmp-copilot",
         dependencies = {
-          {
-            "zbirenbaum/copilot.lua",
-            cmd = "Copilot",
-            build = ":Copilot auth",
-            event = "BufReadPost",
-            opts = {
-              panel = {
-                enabled = false,
-              },
-              suggestion = {
-                enabled = true,
-                auto_trigger = true,
-                keymap = {
-                  accept = "<Tab>",
-                },
-              },
-              filetypes = {
-                markdown = true,
-                help = true,
-              }
-            },
-          },
+          "zbirenbaum/copilot.lua",
         },
       },
     },
@@ -150,6 +129,53 @@ return {
           opts = {}
         },
         "neovim/nvim-lspconfig",
+    },
+  },
+  {
+    "CopilotC-Nvim/CopilotChat.nvim",
+    dependencies = {
+      { "zbirenbaum/copilot.lua" }, -- or zbirenbaum/copilot.lua
+      { "nvim-lua/plenary.nvim", branch = "master" }, -- for curl, log and async functions
+    },
+    build = "make tiktoken", -- Only on MacOS or Linux
+    opts = {
+      -- See Configuration section for options
+      mappings = {
+        accept_diff = {
+          normal = "<C-y>",
+          insert = "<C-y>",
+        },
+        submit_prompt = {
+          normal = "<CR>",
+          insert = "<C-CR>",
+        },
+        show_help = {
+          normal = "g?",
+        },
+      }
+    },
+    -- See Commands section for default commands if you want to lazy load on them
+  },
+  {
+    "zbirenbaum/copilot.lua",
+    cmd = "Copilot",
+    build = ":Copilot auth",
+    event = "BufReadPost",
+    opts = {
+      panel = {
+        enabled = false,
+      },
+      suggestion = {
+        enabled = true,
+        auto_trigger = true,
+        keymap = {
+          accept = "<Tab>",
+        },
+      },
+      filetypes = {
+        markdown = true,
+        help = true,
+      }
     },
   },
 }
