@@ -3,17 +3,19 @@ return {
 	  'saghen/blink.cmp',
 	  -- optional: provides snippets for the snippet source
 	  dependencies = { 
-      'rafamadriz/friendly-snippets',
-      {
-        "giuxtaposition/blink-cmp-copilot",
-        dependencies = {
-          "zbirenbaum/copilot.lua",
-        },
-      },
-    },
+	     'rafamadriz/friendly-snippets',
+	     {
+	       "giuxtaposition/blink-cmp-copilot",
+	       dependencies = {
+	         "zbirenbaum/copilot.lua",
+	       },
+	     },
+	   },
 
 	  -- use a release tag to download pre-built binaries
-	  version = '1.*',
+	  -- version = '1.*',
+	   -- branch = "main",
+	   build = 'cargo build --release',
 	  -- AND/OR build from source, requires nightly: https://rust-lang.github.io/rustup/concepts/channels.html#working-with-nightly-rust
 	  -- build = 'cargo build --release',
 	  -- If you use nix, you can build from source using latest nightly rust with:
@@ -34,31 +36,31 @@ return {
 	    -- C-k: Toggle signature help (if signature.enabled = true)
 	    --
 	    -- See :h blink-cmp-config-keymap for defining your own keymap
-      signature = {
-        enabled = true,
-        window = {
-          show_documentation = true,
-        }
-      },
+	     signature = {
+	       enabled = true,
+	       window = {
+	         show_documentation = true,
+	       },
+	     },
 
 	    keymap = { 
-        preset = 'enter',
-        ["<CR>"] = { "accept", "fallback" },
-        ["<Tab>"] = {
-            "select_next",
-            "snippet_forward",
-            "fallback",
-        },
-        ["<S-Tab>"] = {
-            "select_prev",
-            "snippet_backward",
-            "fallback",
-        },
-        ["<C-space>"] = { "show", "show_documentation", "hide_documentation" },
-        ["<C-e>"] = { "hide" },
-        ["<C-u>"] = { "scroll_documentation_up", "fallback" },
-        ["<C-d>"] = { "scroll_documentation_down", "fallback" },
-      },
+	       preset = 'enter',
+	       ["<CR>"] = { "accept", "fallback" },
+	       ["<Tab>"] = {
+	           "select_next",
+	           "snippet_forward",
+	           "fallback",
+	       },
+	       ["<S-Tab>"] = {
+	           "select_prev",
+	           "snippet_backward",
+	           "fallback",
+	       },
+	       ["<C-space>"] = { "show", "show_documentation", "hide_documentation" },
+	       ["<C-e>"] = { "hide" },
+	       ["<C-u>"] = { "scroll_documentation_up", "fallback" },
+	       ["<C-d>"] = { "scroll_documentation_down", "fallback" },
+	     },
 
 	    appearance = {
 	      -- 'mono' (default) for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
@@ -68,45 +70,45 @@ return {
 
 	    -- (Default) Only show the documentation popup when manually triggered
 	    completion = { 
-        accept = {
-          -- experimental auto-brackets support
-          auto_brackets = {
-            enabled = true,
-          },
-        },
-        menu = {
-          auto_show = true,
-          draw = {
-            treesitter = { "lsp" },
-          },
-        },
-        documentation = { 
-          auto_show = true,
-          auto_show_delay_ms = 100,
-        },
-        ghost_text = {
-          enabled = true,
-        },
-      },
+	       accept = {
+	         -- experimental auto-brackets support
+	         auto_brackets = {
+	           enabled = true,
+	         },
+	       },
+	       menu = {
+	         auto_show = true,
+	         draw = {
+	           treesitter = { "lsp" },
+	         },
+	       },
+	       documentation = { 
+	         auto_show = true,
+	         auto_show_delay_ms = 100,
+	       },
+	       ghost_text = {
+	         enabled = true,
+	       },
+	     },
 
 	    -- Default list of enabled providers defined so that you can extend it
 	    -- elsewhere in your config, without redefining it, due to `opts_extend`
 	    sources = {
 	      default = { 'lsp', 'path', 'snippets', 'buffer', 'copilot' },
-        providers = {
-          lazydev = {
-            name = "LazyDev",
-            module = "lazydev.integrations.blink",
-            -- make lazydev completions top priority (see `:h blink.cmp`)
-            score_offset = 100,
-          },
-          copilot = {
-            name = "copilot",
-            module = "blink-cmp-copilot",
-            score_offset = 100,
-            async = true,
-          },
-        }
+	       providers = {
+	         lazydev = {
+	           name = "LazyDev",
+	           module = "lazydev.integrations.blink",
+	           -- make lazydev completions top priority (see `:h blink.cmp`)
+	           score_offset = 100,
+	         },
+	         copilot = {
+	           name = "copilot",
+	           module = "blink-cmp-copilot",
+	           score_offset = 100,
+	           async = true,
+	         },
+	       }
 	    },
 
 	    -- (Default) Rust fuzzy matcher for typo resistance and significantly better performance
