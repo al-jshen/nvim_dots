@@ -3,7 +3,11 @@ vim.g.mapleader = " "
 
 local map = vim.keymap.set
 
+-- semicolon instead of color
 map({"n", "x"}, ";", ":")
+
+-- code action
+map('n', '<leader>a', function() vim.lsp.buf.code_action({apply=true}) end, bufopts)
 
 -- better up/down
 map({ "n", "x" }, "j", "v:count == 0 ? 'gj' : 'j'", { desc = "Down", expr = true, silent = true })
