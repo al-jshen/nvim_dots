@@ -133,30 +133,119 @@ return {
         "neovim/nvim-lspconfig",
     },
   },
+  -- {
+  --   "CopilotC-Nvim/CopilotChat.nvim",
+  --   dependencies = {
+  --     { "zbirenbaum/copilot.lua" }, -- or zbirenbaum/copilot.lua
+  --     { "nvim-lua/plenary.nvim", branch = "master" }, -- for curl, log and async functions
+  --   },
+  --   build = "make tiktoken", -- Only on MacOS or Linux
+  --   opts = {
+  --     -- See Configuration section for options
+  --     mappings = {
+  --       accept_diff = {
+  --         normal = "<C-y>",
+  --         insert = "<C-y>",
+  --       },
+  --       submit_prompt = {
+  --         normal = "<CR>",
+  --         insert = "<C-CR>",
+  --       },
+  --       show_help = {
+  --         normal = "g?",
+  --       },
+  --     }
+  --   },
+  --   -- See Commands section for default commands if you want to lazy load on them
+  -- },
   {
-    "CopilotC-Nvim/CopilotChat.nvim",
-    dependencies = {
-      { "zbirenbaum/copilot.lua" }, -- or zbirenbaum/copilot.lua
-      { "nvim-lua/plenary.nvim", branch = "master" }, -- for curl, log and async functions
-    },
-    build = "make tiktoken", -- Only on MacOS or Linux
+    "yetone/avante.nvim",
+    -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
+    -- ⚠️ must add this setting! ! !
+    build = "make BUILD_FROM_SOURCE=true",
+    event = "VeryLazy",
+    version = false, -- Never set this value to "*"! Never!
+    ---@module 'avante'
+    ---@type avante.Config
     opts = {
-      -- See Configuration section for options
-      mappings = {
-        accept_diff = {
-          normal = "<C-y>",
-          insert = "<C-y>",
-        },
-        submit_prompt = {
-          normal = "<CR>",
-          insert = "<C-CR>",
-        },
-        show_help = {
-          normal = "g?",
-        },
-      }
+      -- add any opts here
+      -- for example
+      provider = "copilot",
+      behavior = {
+        auto_suggestions = false,
+      },
     },
-    -- See Commands section for default commands if you want to lazy load on them
+    input = {
+      provider = "snacks",
+      provider_opts = {
+        -- Additional snacks.input options
+        title = "Avante Input",
+        icon = " ",
+      },
+    },
+    selector = {
+      provider = "fzf",
+      provider_opts = {},
+    },
+    mappings = {
+      --- @class AvanteConflictMappings
+      diff = {
+        ours = "co",
+        theirs = "ct",
+        all_theirs = "ca",
+        both = "cb",
+        cursor = "cc",
+        next = "]x",
+        prev = "[x",
+      },
+      suggestion = {
+        accept = "<M-l>",
+        next = "<M-]>",
+        prev = "<M-[>",
+        dismiss = "<C-]>",
+      },
+      jump = {
+        next = "]]",
+        prev = "[[",
+      },
+      submit = {
+        normal = "<CR>",
+        insert = "<C-s>",
+      },
+      cancel = {
+        normal = { "<C-c>", "<Esc>", "q" },
+        insert = { "<C-c>" },
+      },
+      sidebar = {
+        apply_all = "A",
+        apply_cursor = "a",
+        retry_user_request = "r",
+        edit_user_request = "e",
+        switch_windows = "<Tab>",
+        reverse_switch_windows = "<S-Tab>",
+        remove_file = "d",
+        add_file = "@",
+        close = { "<Esc>", "q" },
+        close_from_input = nil, -- e.g., { normal = "<Esc>", insert = "<C-d>" }
+      },
+    },
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "MunifTanjim/nui.nvim",
+      --- The below dependencies are optional,
+      "ibhagwan/fzf-lua", -- for file_selector provider fzf
+      "folke/snacks.nvim", -- for input provider snacks
+      "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
+      "zbirenbaum/copilot.lua", -- for providers='copilot'
+      {
+        -- Make sure to set this up properly if you have lazy=true
+        'MeanderingProgrammer/render-markdown.nvim',
+        opts = {
+          file_types = { "markdown", "Avante" },
+        },
+        ft = { "markdown", "Avante" },
+      },
+    },
   },
   {
     "zbirenbaum/copilot.lua",
