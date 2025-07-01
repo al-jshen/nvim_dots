@@ -1,6 +1,19 @@
+-- " Search results centered please
+-- nnoremap <silent> n nzz
+-- nnoremap <silent> N Nzz
+-- nnoremap <silent> * *zz
+-- nnoremap <silent> # #zz
+-- nnoremap <silent> g* g*zz
+--
+-- " wrap certain filetypes
+-- au BufNewFile,BufRead *.txt setlocal wrap linebreak nolist
+-- au BufNewFile,BufRead *.tex setlocal wrap linebreak nolist
+-- au BufNewFile,BufRead *.md setlocal wrap linebreak nolist
+
 vim.g.autoformat = true
 vim.g.snacks_animate = true
 
+vim.opt.wrap = true -- soft wrap lines
 vim.opt.autowrite = true -- Enable auto write
 -- only set clipboard if not in ssh, to make sure the OSC 52
 -- integration works automatically. Requires Neovim >= 0.10.0
@@ -11,18 +24,19 @@ vim.opt.confirm = true -- Confirm to save changes before exiting modified buffer
 vim.opt.cursorline = true -- Enable highlighting of the current line
 vim.opt.expandtab = true -- Use spaces instead of tabs
 vim.opt.fillchars = {
-  foldopen = "",
-  foldclose = "",
-  fold = " ",
-  foldsep = " ",
-  diff = "╱",
-  eob = " ",
+	foldopen = "",
+	foldclose = "",
+	fold = " ",
+	foldsep = " ",
+	diff = "╱",
+	eob = " ",
 }
 vim.opt.foldlevel = 99
 vim.opt.formatexpr = "v:lua.require'lazyvim.util'.format.formatexpr()"
-vim.opt.formatoptions = "jcroqlnt" -- tcqj
+vim.opt.formatoptions = "jcroqlntb"
 vim.opt.grepformat = "%f:%l:%c:%m"
 vim.opt.grepprg = "rg --vimgrep"
+vim.opt.incsearch = true
 vim.opt.ignorecase = true -- Ignore case
 vim.opt.inccommand = "nosplit" -- preview incremental substitute
 vim.opt.jumpoptions = "view"
